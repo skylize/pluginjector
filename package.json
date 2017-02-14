@@ -1,6 +1,6 @@
 {
   "name": "pluginjector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Inject plugins into your module with `this` automatically bound to your core module for methods.",
   "main": "index.js",
   "scripts": {
@@ -15,6 +15,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/skylize/pluginjector.git"
+  },
+  "bugs": {
+    "url": "https://github.com/skylize/pluginjector/issues"
   },
   "keywords": [
     "module",
@@ -31,6 +34,7 @@
     "bind",
     "binding",
     "bound",
-    "object"
+    "object",
+    "microframework"
   ]
 }
