@@ -1,0 +1,36 @@
+{
+  "name": "pluginjector",
+  "version": "1.0.0",
+  "description": "Inject plugins into your module with `this` automatically bound to your core module for methods.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Sky Higgins <eveningsky@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skylize/pluginjector.git"
+  },
+  "keywords": [
+    "module",
+    "extensible",
+    "extend",
+    "plugin",
+    "plugins",
+    "dependency",
+    "dependencies",
+    "inject",
+    "injection",
+    "injector",
+    "this",
+    "bind",
+    "binding",
+    "bound",
+    "object"
+  ]
+}
