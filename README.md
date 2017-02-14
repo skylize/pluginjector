@@ -1,12 +1,15 @@
 # pluginjector
-Dead simple injection for highly extensible node modules.
+
+Simple no nonsense dependency injection for extensibility and testability
 
 ----
-[Install pluginjector from the NPM Registry](https://https://www.npmjs.com/package/pluginjector)
+Install from [NPM](https://https://www.npmjs.com/package/pluginjector)
+
+Help with development [on GitHub](https://github.com/skylize/pluginjector)
 
 ----
 
-Donations accepted. 😃 😃 😃  [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_paynow_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8B8JP3UHWVEMA) 😘
+Donations accepted. 😃 😃 😃  $5 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_paynow_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PH6DA9E2KNN94) $5 😘 😘 😘
 
 ### - Usage -
 
