@@ -30,10 +30,10 @@ describe ('Core module factory call', ()=> {
       .that.is.a('function')
   }
 
-
   it ('Returns valid core when returned with no objects', ()=>{
 
     const core = Core()
+    console.log('does core === Core', core === Core)
     shouldBeCore(core)
   })
 
@@ -177,7 +177,7 @@ describe ('Core module factory call', ()=> {
 
   })
 
-  it('Loads plugin from if directory set and only a name passed in', ()=>{
+  it('Loads plugin from directory if set and only a name passed in', ()=>{
     // This test sets the plugin directory. There is no mechanism to unset it.
     // So this test must be run after any tests that require directory not set.
     const plugin = 'bound-plugin'
