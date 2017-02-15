@@ -202,4 +202,12 @@ describe ('Core module factory call', ()=> {
 
     ;(module1).should.equal(module2)
   })
+
+  it('Lazily injects exactly as described in readme', ()=>{
+    const inject = pluginjector({})
+    const newModule = inject({data: 'abc'})
+    inject({moreData: 'def'})
+
+    ;(newModule.data + newModule.moreData).should.equal('abcdef')
+  })
 })
