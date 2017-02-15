@@ -1,6 +1,6 @@
 {
   "name": "pluginjector",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Inject plugins into your module with `this` automatically bound to your core module for methods.",
   "main": "index.js",
   "scripts": {
@@ -21,13 +21,16 @@
   },
   "keywords": [
     "module",
+    "modules",
     "extensible",
     "extend",
+    "extendable",
     "plugin",
     "plugins",
     "dependency",
     "dependencies",
     "inject",
+    "injects",
     "injection",
     "injector",
     "this",
@@ -35,6 +38,8 @@
     "binding",
     "bound",
     "object",
+    "objects",
+    "framework",
     "microframework"
   ]
 }
