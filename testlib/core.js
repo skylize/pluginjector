@@ -11,4 +11,4 @@ const core = {
   }
 }
 
-module.exports = pluginjector(core)
+module.exports = core
