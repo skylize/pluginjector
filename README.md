@@ -13,6 +13,8 @@ Donations accepted. 😃 😃 😃  $5 [![paypal](https://www.paypalobjects.com/
 
 ### - Usage -
 
+Note: Uses ES6/ES2015 features and may fail on Node versions prior to v6.
+
 ##### Pass your core module object to pluginjector then inject plugins
 ```javascript
 
@@ -68,6 +70,7 @@ assert(myNewModule.myPlugin.method() === 'method') // true
 ```
 
 ##### Bind `this` to your methods with a simple flag
+more detailed look at this [later](#this)
 ```javascript
 
 const myModule = {val: 1}
@@ -83,6 +86,54 @@ assert(newModule.myPlugin.method() === 1) // true
 
 ```
 
+##### Pass in files to be imported
+```javascript
+
+const newModule = inject('../path/to/my/file')
+
+const newNamespacedModule = inject({pluginName: '../path/to/my/file'})
+
+```
+
+##### Include a default directory and your users can pass in just the plugin name.
+```javascript
+
+const inject = (myModule, {dir: '../path/to/default/directory'})
+
+const newModule = inject('pluginName')
+
+const newNamespacedModule = inject({differentPluginName: 'pluginName'})
+
+```
+
+##### Object.create under the hood for basic (but not complete) protection against mutating original module
+
+```javascript
+
+let inject = plugininjector({data: 'original module'})
+const newModule = inject({data: 'new module'})
+
+inject = pluginjector(myModule)
+const anotherNewModule = inject({})
+
+assert(newModule.data === 'new module') // true
+assert(anotherNewModule.data === 'original module') // true
+
+```
+
+##### Lazily inject different plugins as needed
+
+```javascript
+
+const inject = pluginjector(myModule)
+const newModule = inject({data: 'abc'})
+inject({moreData: 'def'})
+
+assert(newModule.data + newModule.moreData === 'abcdef') // true
+
+```
+
+<a name="this"></a>
 ##### More detail to understand handling of `this` binding
 ```javascript
 const myModule = { val: 1 }
@@ -121,57 +172,5 @@ assert(newModule.obj3.method() === 3) // true
 // with namespace,but no flag, `this` points to `newModule.plugin`
 newModule = require('pluginjector')(myModule)({plugin: myPlugin})
 assert(newModule.plugin.method() === 1) // false, `this.val` does not exist
-
-```
-
-### Pass in files to be imported
-```javascript
-
-const newModule = inject('../path/to/my/file')
-
-const newNamespacedModule = inject({pluginName: '../path/to/my/file'})
-
-```
-
-### Include a default directory and your users can pass in just the plugin name.
-```javascript
-
-const inject = (myModule, {dir: '../path/to/default/directory'})
-
-const newModule = inject('pluginName')
-
-const newNamespacedModule = inject({differentPluginName: 'pluginName'})
-
-```
-
-## - Gotchas -
-
-### No protection from mutating your core module
-If you need copies do it yourself before passing to pluginjector
-
-```javascript
-
-const myPlugin {
-  val: 1
-  method (){ return this.val }
-}
-const myOtherPlugin {
-  val: 2
-}
-
-const inject = pluginjector(myModule)
-const newModule = inject (myPlugin)
-
-const injectNotReallyCopy = pluginjector(myModule)
-const newModuleNotReallyCopy = injectNotReallyCopy(myOtherPlugin)
-
-method still exists from previous injection, but value changed
-assert(newModuleNotReallyCopy.method() === 2)
-
-// Real copy must be done some other way first
-
-const injectCopy = pluginjector( myOwnDeepCopyFunction(myModule) )
-const newModuleCopy = injectCopy( myOtherPlugin )
-assert(newModuleCopy.method() === 2) // Error, function does not exist
 
 ```
