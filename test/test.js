@@ -3,9 +3,8 @@
       it
 */
 
-// Note: missing test for if behaves properly when
-//   required outside pluginjector directory. Need a way
-//   to mimick behavior of being called from diff dir
+// **Note: missing test(s) for proper directory traversal when
+//   importing files.
 
 const should = require('chai').should()
   , util = require('util')
@@ -29,7 +28,6 @@ describe ('Core module factory call', ()=> {
   //  }
   const Core = require('../testlib/core.js')
   const pluginjector = require('../')
-  const inject = (...args) => pluginjector(Core).apply(pluginjector, args)
 
   function shouldBeCore (core){
     (core).should.be.an('object', 'core')
@@ -39,14 +37,14 @@ describe ('Core module factory call', ()=> {
 
   it ('Returns valid core when returned with no objects', ()=>{
 
-    const core = inject()
+    const core = pluginjector(Core)()
     shouldBeCore(core)
   })
 
 
   it('Adds new properties when passed object', ()=>{
 
-    const module = inject({newProp: 'value'})
+    const module = pluginjector(Core)({newProp: 'value'})
 
     shouldBeCore(module)
     ;(module).should.have.property('newProp')
@@ -54,7 +52,7 @@ describe ('Core module factory call', ()=> {
   })
 
   it('Adds nested properties when passed an object', ()=>{
-    const module = inject({plugin: {newProp: 'value'}})
+    const module = pluginjector(Core)({plugin: {newProp: 'value'}})
 
     shouldBeCore(module)
     ;(module).should.have.property('plugin')
@@ -75,7 +73,7 @@ describe ('Core module factory call', ()=> {
       } }
     ]
 
-    const module = inject(...pluginArray)
+    const module = pluginjector(Core)(...pluginArray)
 
     shouldBeCore(module)
     ;(module).should.have.property('plugin1')
@@ -96,7 +94,7 @@ describe ('Core module factory call', ()=> {
           .that.is.a('function')
       }
     }
-    const module = inject(plugin)
+    const module = pluginjector(Core)(plugin)
 
     shouldBeCore(module)
     module.method() // test is inside the method
@@ -113,7 +111,7 @@ describe ('Core module factory call', ()=> {
         }
       }
     }
-    const module = inject(plugin)
+    const module = pluginjector(Core)(plugin)
 
     shouldBeCore(module)
     ;(module).should.have.property('plugin')
@@ -123,7 +121,7 @@ describe ('Core module factory call', ()=> {
   it('Loads plugin from disk if passed a filepath', ()=>{
 
     const file = './testlib/plugins/bound-plugin'
-    const module = inject(file)
+    const module = pluginjector(Core)(file)
 
     shouldBeCore(module)
     ;(module).should.have.property('boundPlugin')
@@ -137,7 +135,7 @@ describe ('Core module factory call', ()=> {
   it('Does not bind `this` if user forgets pluginjectorBindThis property', ()=>{
 
     const file = './testlib/plugins/unbound-plugin'
-    const module = inject(file)
+    const module = pluginjector(Core)(file)
 
     shouldBeCore(module)
     ;(module).should.have.property('unboundPlugin')
@@ -151,7 +149,7 @@ describe ('Core module factory call', ()=> {
   it('Loads plugin from disk if passed a plugin name & string', ()=>{
     const file = './testlib/plugins/bound-plugin'
     const plugin = {plugin: file, pluginjectorNamedFile: true}
-    const module = inject(plugin)
+    const module = pluginjector(Core)(plugin)
 
     ;(module).should.have.property('plugin')
     ;(module.plugin.hasRightThisBinding).should.not.throw()
@@ -161,25 +159,47 @@ describe ('Core module factory call', ()=> {
   it('Loads plugin from directory if set and only a name passed in', ()=>{
     const plugin = 'bound-plugin'
     const dir = './testlib/plugins'
+
     const inject = pluginjector(Core, {dir})
     const module = inject(plugin)
-    inspect(inject.pluginDir)
 
     ;(module).should.have.property('boundPlugin')
     ;(module.boundPlugin.hasRightThisBinding).should.not.throw()
     ;(module.boundPlugin.hasWrongThisBinding).should.throw()
 
+    // clean up
     delete inject.pluginDir
   })
 
   it('Fails to load plugin by name if directory not set', ()=>{
-    // this test must run before adding a default dir
     function loadCore(){
-      const module = inject('bound-plugin')
+      const module = pluginjector(Core)('bound-plugin')
     }
     (loadCore).should.throw('Pluginjector')
 
   })
 
+  it('Returns copies on repeated calls to `pluginjector`', ()=>{
 
+    const plugin = {key:'value'}
+
+    const module1 = pluginjector(Core)(plugin)
+    ;(module1).should.have.property('key').that.equals('value')
+
+    const module2 = pluginjector(Core)({})
+    ;(module2).should.not.have.property('key')
+
+    ;(module1).should.not.equal(module2)
+  })
+
+  it('Returns same object on repeated calls to inject',()=>{
+
+    const plugin = {key:'value'}
+    const inject = pluginjector(Core)
+
+    const module1 = inject(plugin)
+    const module2 = inject(plugin)
+
+    ;(module1).should.equal(module2)
+  })
 })
