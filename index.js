@@ -15,15 +15,17 @@ const path = require('path')
         : inspect(ths)
     }
 
-let pluginDir
-
 /*********************************************************/
 
 function pluginjector (core, opts){
   core = Object.create(core)
-  if (opts && opts.dir) pluginDir = opts.dir
-  return function inject (...args){
 
+  this.getPluginDir = ()=>piInject.pluginDir
+  if (opts && opts.dir) piInject.pluginDir = opts.dir
+
+  return piInject
+
+  function piInject (...args){
     const plugins = args.map(plugin => {
       if (typeof plugin === 'string') {
         plugin = getPluginFromFile(plugin)
@@ -86,10 +88,11 @@ function getPluginFromFile(file, key){
   // check if string is only word chars
   let nameMatch = file.match(/^[\w-]*$/)
   // if only name provided then build path from pluginDir
-  if (nameMatch && pluginDir) {
-    let file = path.join(pluginDir, nameMatch[0])
+  let dir = this.getPluginDir()
+  if (nameMatch && dir) {
+    let file = path.join(dir, nameMatch[0])
 
-    file = [pluginDir,nameMatch[0]].join('/')
+    file = [dir, nameMatch[0]].join('/')
     return getPluginFromFile(file, key)
   }
   let obj = {}
