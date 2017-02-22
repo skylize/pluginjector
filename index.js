@@ -102,9 +102,7 @@ function getPluginFromFile(file, key){
   try{
     obj[key] = require(file)
     return obj
-  }catch(e){
-    throw new Error(`Pluginjector failed to load plugin ${file}`)
-  }
+  }catch(e){ throw e }
 }
 
 function makeKeyNameFromFilePath(path){
