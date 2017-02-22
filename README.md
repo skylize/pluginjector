@@ -106,7 +106,7 @@ const newNamespacedModule = inject({differentPluginName: 'pluginName'})
 
 ```
 
-##### Object.create under the hood for basic (but not complete) protection against mutating original module
+##### Original core is shallow copied to minimize possibility of undesired mutations
 
 ```javascript
 

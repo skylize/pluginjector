@@ -175,7 +175,7 @@ describe ('Core module factory call', ()=> {
     function loadCore(){
       const module = pluginjector(Core)('bound-plugin')
     }
-    (loadCore).should.throw('Pluginjector')
+    (loadCore).should.throw('Cannot find module')
 
   })
 
