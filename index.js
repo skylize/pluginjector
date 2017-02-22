@@ -51,7 +51,7 @@ function traverseAndImportFromFile(obj, parent){
       delete obj[k] // did its job. remove it for cleaner objects
       let keys = Object.keys(obj)
       if (keys.length !== 1)
-        throw 'Pluginjector found too many properties in namespace wrapper.'
+        throw new Error('Pluginjector found too many properties in namespace wrapper.')
       let plugin = getPluginFromFile(obj[keys[0]], keys[0])
       delete obj[keys[0]]
       Object.assign(obj, plugin)
@@ -103,7 +103,7 @@ function getPluginFromFile(file, key){
     obj[key] = require(file)
     return obj
   }catch(e){
-    throw `Pluginjector failed to load plugin ${file}`
+    throw new Error(`Pluginjector failed to load plugin ${file}`)
   }
 }
 
