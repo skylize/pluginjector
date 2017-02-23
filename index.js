@@ -1,19 +1,4 @@
 const path = require('path')
-    , util = require('util')
-    , inspect = (...args) => {
-      if (args.length) console.log('\ninspecting from index:')
-      args.forEach( obj=>{ console.log(
-        util.inspect(obj, {
-          depth: 4,
-          colors:true,
-          maxArrayLength: 5
-        })
-      )})
-    }
-    , inspectThis = (ths) => {
-      (ths === global) ? console.log('this === global')
-        : inspect(ths)
-    }
 
 /*********************************************************/
 
