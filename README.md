@@ -93,6 +93,11 @@ const newModule = inject('../path/to/my/file')
 
 const newNamespacedModule = inject({pluginName: '../path/to/my/file'})
 
+// filenames are automatically namespaced in camelCase
+
+const nModule = inject('../location/my-plugin')
+assert( !!nModule.myPlugin ) // true
+
 ```
 
 ##### Include a default directory and your users can pass in just the plugin name.
