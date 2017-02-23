@@ -91,9 +91,9 @@ function getPluginFromFile(file, key){
   }catch(e){ throw e }
 }
 
-function makeKeyNameFromFilePath(path){
+function makeKeyNameFromFilePath(pathname){
   // extract name of file without directories or extension
-  return path.match(/[^\\\/]+(?=\.[\w]+$)|[^\\\/]+$/)[0]
+  return pathname.match(/[^\\\/]+(?=\.[\w]+$)|[^\\\/]+$/)[0]
     // convert dashes or spaces to camelcase
     .replace(/(-|\s|\.)+([\w])/g, (...args) => {
       return args[2].toUpperCase()
