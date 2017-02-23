@@ -78,7 +78,7 @@ function getPluginFromFile(file, key){
   if (nameMatch && dir) {
     let file = path.join(dir, nameMatch[0])
 
-    file = [dir, nameMatch[0]].join('/')
+    file = path.join(dir, nameMatch[0])
     return getPluginFromFile(file, key)
   }
   let obj = {}
