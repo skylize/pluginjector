@@ -106,23 +106,7 @@ const newNamespacedModule = inject({differentPluginName: 'pluginName'})
 
 ```
 
-##### Original core is shallow copied to minimize possibility of undesired mutations
-
-```javascript
-
-let inject = plugininjector({data: 'original module'})
-const newModule = inject({data: 'new module'})
-
-inject = pluginjector(myModule)
-const anotherNewModule = inject({})
-
-assert(newModule.data === 'new module') // true
-assert(anotherNewModule.data === 'original module') // true
-
-```
-
 ##### Lazily inject different plugins as needed
-
 ```javascript
 
 const inject = pluginjector(myModule)
@@ -130,6 +114,30 @@ const newModule = inject({data: 'abc'})
 inject({moreData: 'def'})
 
 assert(newModule.data + newModule.moreData === 'abcdef') // true
+
+```
+
+##### Original core is shallow copied to minimize possibility of undesired mutations
+```javascript
+
+let inject = plugininjector({data: 'core module'})
+const newModule = inject({data: 'new module'})
+
+inject = pluginjector(myModule)
+const anotherNewModule = inject({})
+
+assert(newModule.data === 'new module') // true
+assert(anotherNewModule.data === 'core module') // true
+
+```
+
+##### Optionally use core module as prototype instead of shallow copy
+```javascript
+
+const inject = pluginjectore(coreModule, {proto: true})
+const newModule = inject(plugin)
+
+assert(coreModule.isPrototypeOf(newModule)) // true
 
 ```
 

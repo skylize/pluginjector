@@ -17,11 +17,12 @@ const path = require('path')
 
 /*********************************************************/
 
-function pluginjector (core, opts){
-  core = Object.assign({}, core)
+function pluginjector (core, opts ={}){
+  if (opts.proto) core = Object.create(core)
+  else core = Object.assign({}, core)
 
   this.getPluginDir = ()=>piInject.pluginDir
-  if (opts && opts.dir) piInject.pluginDir = opts.dir
+  if (opts.dir) piInject.pluginDir = opts.dir
 
   return piInject
 

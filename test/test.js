@@ -210,4 +210,14 @@ describe ('Core module factory call', ()=> {
 
     ;(newModule.data + newModule.moreData).should.equal('abcdef')
   })
+
+  it('Uses core as prototype when `proto` option is true', ()=>{
+    const module = pluginjector(Core, {proto: true})({})
+    ;(Core.isPrototypeOf(module)).should.equal(true)
+  })
+
+  it('Does not use core as prototype by default', ()=>{
+    const module = pluginjector(Core)({})
+    ;(Core.isPrototypeOf(module)).should.not.equal(true)
+  })
 })
