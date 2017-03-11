@@ -82,9 +82,10 @@ function getPluginFromFile(file, key){
     return getPluginFromFile(file, key)
   }
   let obj = {}
+let root = __dirname + (require.main===module ? '' : '/../../')
   // if looks like relative path, then make absolute
   if ( ! file.match(/^(\/|[A-Za-z]:)/) )
-    file = path.join(process.cwd(),file)
+    file = path.join(root, file)
   try{
     obj[key] = require(file)
     return obj
